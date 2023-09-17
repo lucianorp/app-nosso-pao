@@ -14,7 +14,7 @@ function LoginScreen({ navigation }) {
   // useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged(user => {
   //     if (user) {
-  //       navigation.replace("Products")
+  //       navigation.replace("Padarias")
   //     }
   //   })
 
@@ -31,7 +31,7 @@ function LoginScreen({ navigation }) {
       .then(userCredential => {
         const user = userCredential.user;
         console.log('Logged in with:', user.email);
-        navigation.replace("Products");
+        navigation.replace("Padarias");
       })
       .catch(error => alert(error.message))
   };
