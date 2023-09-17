@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth'; // Importe os módulos necessários
-import { auth } from '../../firebase';
+import { getAuthInstance } from '../../firebase'; // Importe sua instância de autenticação Firebase corretamente
 
 function Products({ navigation }) {
   const handleLogout = async () => {

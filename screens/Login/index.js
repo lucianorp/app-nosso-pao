@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'; // Importgh
-import { auth } from '../../firebase'; // Importe sua instância de autenticação Firebase corretamente
-
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuthInstance } from '../../firebase'; // Importe sua instância de autenticação Firebase corretamente
+import Toast from 'react-native-toast-message';
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -21,31 +21,35 @@ function LoginScreen({ navigation }) {
   //   return unsubscribe
   // }, [])
 
+  useEffect(() => {
+    getAuthInstance(); // Inicialize o Firebase quando o componente for montado
+  }, []);
+
   const handleLogin = () => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
+    const authInstance = getAuth();
+    signInWithEmailAndPassword(authInstance, email, password)
       .then(userCredential => {
         const user = userCredential.user;
         console.log('Logged in with:', user.email);
-        navigation.replace("Products")
+        navigation.replace("Products");
       })
       .catch(error => alert(error.message))
   };
 
   const handleSignUp = () => {
-    const auth = getAuth(); // Obtenha a instância de autenticação correta
-    createUserWithEmailAndPassword(auth, emailRegister, passwordRegister) // Use a função createUserWithEmailAndPassword corretamente
+    const authInstance = getAuth(); // Obtenha a instância de autenticação correta
+    createUserWithEmailAndPassword(authInstance, emailRegister, passwordRegister)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user.email);
-        setEmailRegister("")
-        setPasswordRegister("")
+        setEmailRegister("");
+        setPasswordRegister("");
         Toast.show({
-          type: 'success', // Tipo de toast (pode ser 'success', 'error', 'info', etc.)
-          text1: 'Cadastro feito com sucesso', // Título do toast
-          position: 'bottom', // Posição do toast ('top', 'bottom', 'center')
+          type: 'success',
+          text1: 'Cadastro feito com sucesso',
+          position: 'bottom',
         });
-        setActiveTab('login')
+        setActiveTab('login');
       })
       .catch((error) => {
         // Trate erros aqui
